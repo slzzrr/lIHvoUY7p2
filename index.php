@@ -53,6 +53,33 @@ include 'layout/header.php';
 include 'layout/sidebar.php';
 include 'layout/topbar.php';
 ?>
+<div id="loader-wrapper">
+    <div id="loader">
+        <!-- SVG de camión con el texto "FERSUS" en la caja -->
+        <svg version="1.1" id="truckIcon" xmlns="http://www.w3.org/2000/svg" 
+             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 512 512" xml:space="preserve">
+          <!-- Camión en color blanco -->
+          <path fill="#ffffff" d="M480,192h-96V96c0-17.673-14.327-32-32-32H48C21.486,64,0,85.486,0,112v192
+            c0,26.514,21.486,48,48,48h32c0,35.346,28.654,64,64,64s64-28.654,64-64h128c0,35.346,28.654,64,64,64
+            s64-28.654,64-64h32c26.514,0,48-21.486,48-48V224C512,213.488,498.512,208,480,192z M112,432
+            c-17.673,0-32-14.327-32-32s14.327-32,32-32s32,14.327,32,32S129.673,432,112,432z M400,432
+            c-17.673,0-32-14.327-32-32s14.327-32,32-32s32,14.327,32,32S417.673,432,400,432z M464,192h-80V128h80V192z"/>
+          
+          <!-- Texto FERSUS en la caja:
+               "FER" (azul), "S" (blanco), "US" (azul).
+               Ajusta x, y, font-size para la posición y tamaño exactos. -->
+          <text x="205" y="230" text-anchor="middle" font-size="60" font-family="Arial" font-weight="bold">
+            <tspan fill="#0066cc">FER</tspan>
+            <tspan fill="#7c7c7c">S</tspan>
+            <tspan fill="#0066cc">US</tspan>
+          </text>
+          <text x="217" y="270" text-anchor="middle" font-size="40" font-family="Arial" font-weight="bold">
+            <tspan fill="#7c7c7c">transportes</tspan>
+          </text>
+        </svg>
+    </div>
+</div>
 
 <div class="overlay"></div>
 <div class="main-content panel-dark">

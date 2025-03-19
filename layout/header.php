@@ -24,5 +24,6 @@ if (!defined('BASE_URL')) {
   
   <!-- Tu CSS principal global (home.css) -->
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/home.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/loader.css">
 </head>
 <body>

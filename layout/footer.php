@@ -26,5 +26,20 @@ if (!defined('BASE_URL')) {
 <script src="<?php echo BASE_URL; ?>assets/js/products.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/empleados/tarjeta.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/js/material.min.js"></script>
+<script>
+  window.addEventListener("load", function() {
+      document.body.classList.add("loaded");
+      // Opcional: remover el loader del DOM después de la transición
+      setTimeout(() => {
+          const loaderWrapper = document.getElementById("loader-wrapper");
+          if(loaderWrapper) {
+              loaderWrapper.parentNode.removeChild(loaderWrapper);
+          }
+      }, 1000);
+  });
+</script>
+
+
+
 </body>
 </html>
