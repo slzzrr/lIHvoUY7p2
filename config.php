@@ -1,9 +1,9 @@
 <?php
 error_reporting(E_ALL & ~E_DEPRECATED);
-$usuario = "root";
-$password = "";
+$usuario = "u889162940_ts";
+$password = "Cheater099?!";
 $servidor = "localhost";
-$basededatos = "common";
+$basededatos = "u889162940_ts";
 
 $conexion = new mysqli($servidor, $usuario, $password, $basededatos);
 if ($conexion->connect_error) {
@@ -11,4 +11,4 @@ if ($conexion->connect_error) {
 }
 
 // Ajusta la ruta a la carpeta real de tu proyecto:
-define('BASE_URL', 'http://localhost/lok/');
+define('BASE_URL', 'https://ts.salan.group/');
