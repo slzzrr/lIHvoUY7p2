@@ -53,6 +53,7 @@ include 'layout/header.php';
 include 'layout/sidebar.php';
 include 'layout/topbar.php';
 ?>
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/loader.css">
 <div id="loader-wrapper">
     <div id="loader">
         <!-- SVG de camión con el texto "FERSUS" en la caja -->

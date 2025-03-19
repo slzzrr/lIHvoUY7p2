@@ -10,7 +10,14 @@ include '../layout/sidebar.php';
 include '../layout/topbar.php';
 ?>
 
-<div class="container" style="padding:20px; text-align:center;">
+<div class="overlay"></div>
+  <div class="main-content panel-dark">
+  <!-- Logo de la empresa -->
+  <div class="flex-item">
+    <a href="https://fersus.com.mx/">
+      <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Logo" class="logo">
+    </a>
+  </div>
   <h1>Registro de Asistencia</h1>
   <p id="statusMessage" style="font-size:1.2em; margin-bottom:20px;">Iniciando escaneo...</p>
   <!-- Contenedor para el escáner -->

@@ -39,7 +39,12 @@ if (!defined('BASE_URL')) {
         <ul class="submenu">
           <li>
             <a href="<?php echo BASE_URL; ?>empleados/index.php">
-              Listado / Registro
+              Registro
+            </a>
+          </li>
+          <li>
+            <a href="<?php echo BASE_URL; ?>empleados/listado_colaboradores.php">
+              Listado
             </a>
           </li>
           <li>

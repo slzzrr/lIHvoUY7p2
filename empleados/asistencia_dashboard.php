@@ -111,7 +111,14 @@ thead tr:nth-child(2) th {
 }
 </style>
 
-<div class="container-dashboard">
+<div class="overlay"></div>
+  <div class="main-content panel-dark">
+  <!-- Logo de la empresa -->
+  <div class="flex-item">
+    <a href="https://fersus.com.mx/">
+      <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Logo" class="logo">
+    </a>
+  </div>
   <!-- TABLA: Resumen de Asistencias de Hoy -->
   <table>
     <thead>

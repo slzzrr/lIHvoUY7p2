@@ -1,33 +1,45 @@
 <?php
 session_start();
-// Subimos un nivel para incluir config.php y tener BASE_URL
 include '../auth.php';
 include '../config.php';
-requireRoles(['admin']);
+requireRoles(['admin']); // Solo el admin puede registrar nuevos colaboradores
 
 // Verificar si el usuario inició sesión
 if (!isset($_SESSION['user_id'])) {
-  header("Location: " . BASE_URL . "login.php");
-  exit();
+    header("Location: " . BASE_URL . "login.php");
+    exit();
 }
 
-// Procesar formulario de registro de empleado
+// Procesar formulario de registro de colaborador
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'] ?? '';
-    $apellido = $_POST['apellido'] ?? '';
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellido = trim($_POST['apellido'] ?? '');
     $sexo = $_POST['sexo'] ?? '';
-    $ine = $_POST['ine'] ?? '';
-    $tipo_sangre = $_POST['tipo_sangre'] ?? '';
-    $direccion = $_POST['direccion'] ?? '';
-    $telefono = $_POST['telefono'] ?? '';
-    $contacto = $_POST['contacto_emergencia'] ?? '';
-    $num_seguro = $_POST['num_seguro_social'] ?? '';
-    $puesto = $_POST['puesto'] ?? '';
-    $grado = $_POST['grado_estudio'] ?? '';
+    // El campo INE se dejará opcional (por si se ingresa manualmente)
+    $ine = trim($_POST['ine'] ?? '');
+    $tipo_sangre = trim($_POST['tipo_sangre'] ?? '');
+    $direccion = trim($_POST['direccion'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+    $contacto = trim($_POST['contacto_emergencia'] ?? '');
+    $num_seguro = trim($_POST['num_seguro_social'] ?? '');
+    $puesto = trim($_POST['puesto'] ?? '');
+    $grado = trim($_POST['grado_estudio'] ?? '');
     $fecha_ingreso = $_POST['fecha_ingreso'] ?? '';
-    $email = $_POST['email'] ?? '';
+    $email = trim($_POST['email'] ?? '');
+    $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? '';
 
-    // Manejo de la foto (opcional)
+    // Validaciones en el servidor
+    if (!empty($ine) && !preg_match('/^[A-Za-z0-9]+$/', $ine)) {
+        die("INE inválido. Debe contener solo caracteres alfanuméricos.");
+    }
+    if (!preg_match('/^[0-9]{10}$/', $telefono)) {
+        die("Teléfono inválido. Debe contener exactamente 10 dígitos.");
+    }
+    if (!preg_match('/^[0-9]{10}$/', $contacto)) {
+        die("Contacto de Emergencia inválido. Debe contener 10 dígitos.");
+    }
+
+    // Manejo de la foto del colaborador (opcional)
     $foto = null;
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
         $targetDir = "../uploads/";
@@ -39,54 +51,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $foto = $fotoPath;
     }
 
+    // Manejo de las imágenes del INE
+    $ine_frontal = null;
+    $ine_trasero = null;
+    $targetDirINE = "../uploads/ine/";
+    if (!file_exists($targetDirINE)) {
+        mkdir($targetDirINE, 0777, true);
+    }
+    if (isset($_FILES['ine_frontal']) && $_FILES['ine_frontal']['error'] === 0) {
+        $ineFrontalPath = $targetDirINE . basename($_FILES['ine_frontal']['name']);
+        move_uploaded_file($_FILES['ine_frontal']['tmp_name'], $ineFrontalPath);
+        $ine_frontal = $ineFrontalPath;
+    }
+    if (isset($_FILES['ine_trasero']) && $_FILES['ine_trasero']['error'] === 0) {
+        $ineTraseroPath = $targetDirINE . basename($_FILES['ine_trasero']['name']);
+        move_uploaded_file($_FILES['ine_trasero']['tmp_name'], $ineTraseroPath);
+        $ine_trasero = $ineTraseroPath;
+    }
+
     // Insertar en la tabla empleados
     $stmt = $conexion->prepare("
         INSERT INTO empleados
         (nombre, apellido, sexo, ine, tipo_sangre, direccion, telefono,
          contacto_emergencia, num_seguro_social, puesto, grado_estudio,
-         fecha_ingreso, email, foto)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         fecha_ingreso, email, foto, fecha_nacimiento, ine_frontal, ine_trasero)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
-    $stmt->bind_param("ssssssssssssss",
+    $stmt->bind_param("sssssssssssssssss",
         $nombre, $apellido, $sexo, $ine, $tipo_sangre, $direccion, $telefono,
-        $contacto, $num_seguro, $puesto, $grado, $fecha_ingreso, $email, $foto
+        $contacto, $num_seguro, $puesto, $grado, $fecha_ingreso, $email, $foto, $fecha_nacimiento, $ine_frontal, $ine_trasero
     );
     $stmt->execute();
     $stmt->close();
 
-    // Redirigir para limpiar el formulario
     header("Location: index.php");
     exit();
 }
 
-// Listar empleados
+// Listar colaboradores (ordenados por id descendente)
 $query = "SELECT * FROM empleados ORDER BY id DESC";
 $result = $conexion->query($query);
 
 // Incluir layout
-include '../layout/header.php';   // Carga <head>, home.css (con BASE_URL)
-include '../layout/sidebar.php';  // Barra lateral
-include '../layout/topbar.php';   // Barra superior
+include '../layout/header.php';
+include '../layout/sidebar.php';
+include '../layout/topbar.php';
 ?>
 
-<!-- CSS específico de este módulo (opcional si lo tienes) -->
+<!-- Puedes colocar estilos profesionales en un archivo CSS (por ejemplo, assets/css/empleados/index.css) -->
 <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/empleados/index.css">
 
 <div class="overlay"></div>
-<div class="main-content panel-dark">
-
-  <!-- Logo de la empresa (opcional) -->
+  <div class="main-content panel-dark">
+  <!-- Logo de la empresa -->
   <div class="flex-item">
     <a href="https://fersus.com.mx/">
       <img src="<?php echo BASE_URL; ?>assets/img/logo.png" alt="Logo" class="logo">
     </a>
   </div>
 
-  <h2>Empleados</h2>
+  <h2>Colaboradores</h2>
 
-  <!-- Formulario de Registro de Empleado -->
+  <!-- Formulario de Registro de Colaborador -->
   <div class="card">
-    <h3>Registrar Empleado</h3>
+    <h3>Registrar Colaborador</h3>
     <form action="index.php" method="post" class="employee-form" enctype="multipart/form-data">
       <!-- Nombre y Apellido -->
       <div class="form-group">
@@ -106,10 +134,19 @@ include '../layout/topbar.php';   // Barra superior
           <option value="F">Femenino</option>
         </select>
       </div>
-      <!-- INE -->
+      <!-- INE (clave de elector, opcional) -->
       <div class="form-group">
-        <label for="ine">INE:</label>
+        <label for="ine">Clave del Elector (opcional):</label>
         <input type="text" name="ine" id="ine" class="form-control">
+      </div>
+      <!-- Imágenes del INE -->
+      <div class="form-group">
+        <label for="ine_frontal">INE Frontal:</label>
+        <input type="file" name="ine_frontal" id="ine_frontal" class="form-control" accept="image/*">
+      </div>
+      <div class="form-group">
+        <label for="ine_trasero">INE Trasero:</label>
+        <input type="file" name="ine_trasero" id="ine_trasero" class="form-control" accept="image/*">
       </div>
       <!-- Tipo de Sangre -->
       <div class="form-group">
@@ -123,13 +160,15 @@ include '../layout/topbar.php';   // Barra superior
       </div>
       <!-- Teléfono -->
       <div class="form-group">
-        <label for="telefono">Teléfono:</label>
-        <input type="text" name="telefono" id="telefono" class="form-control" required>
+        <label for="telefono">Teléfono (México, 10 dígitos):</label>
+        <input type="tel" name="telefono" id="telefono" class="form-control" required
+               pattern="^[0-9]{10}$" maxlength="10" title="Debe contener exactamente 10 dígitos">
       </div>
       <!-- Contacto de Emergencia -->
       <div class="form-group">
-        <label for="contacto_emergencia">Contacto de Emergencia:</label>
-        <input type="text" name="contacto_emergencia" id="contacto_emergencia" class="form-control">
+        <label for="contacto_emergencia">Contacto de Emergencia (10 dígitos):</label>
+        <input type="tel" name="contacto_emergencia" id="contacto_emergencia" class="form-control" required
+               pattern="^[0-9]{10}$" maxlength="10" title="Debe contener exactamente 10 dígitos">
       </div>
       <!-- Número de Seguro Social -->
       <div class="form-group">
@@ -156,19 +195,24 @@ include '../layout/topbar.php';   // Barra superior
         <label for="email">Correo Electrónico:</label>
         <input type="email" name="email" id="email" class="form-control">
       </div>
-      <!-- Foto (opcional) -->
+      <!-- Fecha de Nacimiento -->
+      <div class="form-group">
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control">
+      </div>
+      <!-- Foto del colaborador (opcional) -->
       <div class="form-group">
         <label for="foto">Foto (opcional):</label>
         <input type="file" name="foto" id="foto" class="form-control">
       </div>
 
-      <button type="submit" class="btn">Registrar Empleado</button>
+      <button type="submit" class="btn">Registrar Colaborador</button>
     </form>
   </div>
-
-  <!-- Lista de Empleados -->
+  
+  <!-- Lista de Colaboradores en esta misma página (opcional, si prefieres separarlo en otra) -->
   <div class="card">
-    <h3>Listado de Empleados</h3>
+    <h3>Listado de Colaboradores</h3>
     <table class="table employee-table">
       <thead>
         <tr>
@@ -177,6 +221,8 @@ include '../layout/topbar.php';   // Barra superior
           <th>Apellido</th>
           <th>Sexo</th>
           <th>INE</th>
+          <th>INE Frontal</th>
+          <th>INE Trasero</th>
           <th>Tipo Sangre</th>
           <th>Dirección</th>
           <th>Teléfono</th>
@@ -186,6 +232,7 @@ include '../layout/topbar.php';   // Barra superior
           <th>Grado Estudio</th>
           <th>Fecha Ingreso</th>
           <th>Email</th>
+          <th>Fecha Nacimiento</th>
           <th>Foto</th>
         </tr>
       </thead>
@@ -193,19 +240,34 @@ include '../layout/topbar.php';   // Barra superior
         <?php while ($row = $result->fetch_assoc()): ?>
           <tr>
             <td><?php echo $row['id']; ?></td>
-            <td><?php echo $row['nombre']; ?></td>
-            <td><?php echo $row['apellido']; ?></td>
-            <td><?php echo $row['sexo']; ?></td>
-            <td><?php echo $row['ine']; ?></td>
-            <td><?php echo $row['tipo_sangre']; ?></td>
-            <td><?php echo $row['direccion']; ?></td>
-            <td><?php echo $row['telefono']; ?></td>
-            <td><?php echo $row['contacto_emergencia']; ?></td>
-            <td><?php echo $row['num_seguro_social']; ?></td>
-            <td><?php echo $row['puesto']; ?></td>
-            <td><?php echo $row['grado_estudio']; ?></td>
-            <td><?php echo $row['fecha_ingreso']; ?></td>
-            <td><?php echo $row['email']; ?></td>
+            <td><?php echo htmlspecialchars($row['nombre']); ?></td>
+            <td><?php echo htmlspecialchars($row['apellido']); ?></td>
+            <td><?php echo htmlspecialchars($row['sexo']); ?></td>
+            <td><?php echo htmlspecialchars($row['ine']); ?></td>
+            <td>
+              <?php if ($row['ine_frontal'] && file_exists($row['ine_frontal'])): ?>
+                <img src="<?php echo $row['ine_frontal']; ?>" alt="INE Frontal" style="width:50px; height:auto;">
+              <?php else: ?>
+                N/A
+              <?php endif; ?>
+            </td>
+            <td>
+              <?php if ($row['ine_trasero'] && file_exists($row['ine_trasero'])): ?>
+                <img src="<?php echo $row['ine_trasero']; ?>" alt="INE Trasero" style="width:50px; height:auto;">
+              <?php else: ?>
+                N/A
+              <?php endif; ?>
+            </td>
+            <td><?php echo htmlspecialchars($row['tipo_sangre']); ?></td>
+            <td><?php echo htmlspecialchars($row['direccion']); ?></td>
+            <td><?php echo htmlspecialchars($row['telefono']); ?></td>
+            <td><?php echo htmlspecialchars($row['contacto_emergencia']); ?></td>
+            <td><?php echo htmlspecialchars($row['num_seguro_social']); ?></td>
+            <td><?php echo htmlspecialchars($row['puesto']); ?></td>
+            <td><?php echo htmlspecialchars($row['grado_estudio']); ?></td>
+            <td><?php echo htmlspecialchars($row['fecha_ingreso']); ?></td>
+            <td><?php echo htmlspecialchars($row['email']); ?></td>
+            <td><?php echo htmlspecialchars($row['fecha_nacimiento']); ?></td>
             <td>
               <?php if ($row['foto'] && file_exists($row['foto'])): ?>
                 <img src="<?php echo $row['foto']; ?>" alt="Foto" style="width:50px; height:auto;">
