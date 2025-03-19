@@ -12,3 +12,5 @@ if ($conexion->connect_error) {
 
 // Ajusta la ruta a la carpeta real de tu proyecto:
 define('BASE_URL', 'https://ts.salan.group/');
+date_default_timezone_set('America/Mexico_City');
+?>
