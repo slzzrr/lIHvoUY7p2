@@ -1,0 +1,52 @@
+/* index.css (empleados) */
+
+/* Estilos para el formulario de registro */
+.employee-form {
+    margin-bottom: 20px;
+  }
+  .employee-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  .employee-form .form-group {
+    margin-bottom: 10px;
+  }
+  .employee-form .form-group label {
+    font-weight: 500;
+    color: #ddd;
+  }
+  .employee-form .form-control {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+  }
+  
+  /* Estilos para la tabla de empleados */
+  .employee-list {
+    margin-top: 20px;
+  }
+  .employee-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .employee-list thead {
+    background: rgba(255,255,255,0.1);
+  }
+  .employee-list th, 
+  .employee-list td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .employee-list th {
+    text-align: left;
+    color: #ccc;
+  }
+  
+  /* Estilos para la card de la gráfica */
+  .employee-chart {
+    margin-top: 20px;
+  }
+  .employee-chart h3 {
+    margin-bottom: 10px;
+  }
+  

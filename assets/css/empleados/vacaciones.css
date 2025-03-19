@@ -1,0 +1,50 @@
+/* vacaciones.css */
+
+.vacaciones-container {
+    margin-top: 20px;
+  }
+  .vacaciones-container h2 {
+    margin-bottom: 15px;
+  }
+  
+  /* Formulario de vacaciones */
+  .vacaciones-form {
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .vacaciones-form h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  .vacaciones-form .form-group {
+    margin-bottom: 10px;
+  }
+  .vacaciones-form .form-control {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+  }
+  .vacaciones-form .btn {
+    margin-top: 10px;
+  }
+  
+  /* Lista / tabla de vacaciones (opcional si lo implementas) */
+  .vacaciones-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .vacaciones-list thead {
+    background: rgba(255,255,255,0.1);
+  }
+  .vacaciones-list th, 
+  .vacaciones-list td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .vacaciones-list th {
+    text-align: left;
+    color: #ccc;
+  }
+  

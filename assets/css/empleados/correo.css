@@ -1,0 +1,39 @@
+/* correo.css */
+
+.correo-container {
+    margin-top: 20px;
+  }
+  .correo-container h2 {
+    margin-bottom: 10px;
+  }
+  .correo-form {
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .correo-form .form-group {
+    margin-bottom: 12px;
+  }
+  .correo-form .form-group label {
+    color: #ddd;
+  }
+  .correo-form .form-control {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    color: #333;
+  }
+  .correo-form .btn {
+    margin-top: 10px;
+  }
+  
+  /* Mensaje de notificación */
+  .notification {
+    background-color: #d4edda; 
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    display: none; /* Se muestra con JS */
+    margin-bottom: 15px;
+  }
+  

@@ -1,0 +1,140 @@
+html {
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #2e2e2e; /* Fondo oscuro */
+    color: #f9f9f9; /* Color de texto más claro */
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+    height: 60px; /* Aumenta la altura para el logo */
+    background: linear-gradient(70deg, #505050, #606060); /* Colores más suaves */
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.contenedor_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+header .logo {
+    height: 40px; /* Ajusta el tamaño del logo */
+}
+
+header nav {
+    display: flex;
+    gap: 20px;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    color: #bbb; /* Color de hover para los enlaces */
+}
+
+.container {
+    max-width: 600px; /* Reducido el ancho máximo para centrar */
+    margin: 150px auto 20px; /* Ajusta el margen superior para espacio debajo del header */
+    background: #3e3e3e; /* Fondo del contenedor */
+    padding: 30px; /* Aumentado el padding para más espacio */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px; /* Reducido el margen inferior del título */
+    color: #fff; /* Color del título */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Espacio entre grupos de formulario */
+}
+
+.form-group label {
+    color: #ddd; /* Color de las etiquetas de los formularios */
+    display: block;
+    margin-bottom: 8px; /* Espacio bajo las etiquetas */
+}
+
+.form-group input,
+.form-group textarea {
+    background: #555; /* Fondo de los campos de formulario */
+    color: #fff; /* Color del texto de los campos */
+    border: 1px solid #777;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-group textarea {
+    resize: vertical; /* Permite redimensionar verticalmente el textarea */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #aaa; /* Color de foco */
+}
+
+.btn {
+    background: #505050;
+    border: none;
+    color: #fff;
+    padding: 12px 24px; /* Aumentado el padding del botón */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: 100%; /* Botón ocupa todo el ancho */
+    text-align: center;
+    margin-top: 20px; /* Espacio arriba del botón */
+}
+
+.btn:hover {
+    background: #606060;
+}
+
+.whatsapp-btn {
+    text-align: center; /* Centra el botón de WhatsApp */
+    margin-top: 20px; /* Espacio arriba del botón */
+}
+
+.footer {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    background-color: #505050; /* Fondo del pie de página */
+    color: white;
+    padding: 20px 0; /* Ajuste de padding */
+    position: absolute;
+    bottom: 0;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px; /* Ajuste de padding para dispositivos móviles */
+    }
+}
