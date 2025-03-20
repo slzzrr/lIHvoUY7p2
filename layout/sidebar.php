@@ -64,12 +64,22 @@ if (!defined('BASE_URL')) {
           </li>
           <li>
             <a href="<?php echo BASE_URL; ?>empleados/asistencia.php">
-              asistencia
+              Escaneo
             </a>
           </li>
           <li>
             <a href="<?php echo BASE_URL; ?>empleados/asistencia_dashboard.php">
-              👁 asistencia
+              Asistencia
+            </a>
+          </li>
+          <li>
+            <a href="<?php echo BASE_URL; ?>empleados/salarios.php">
+              Salarios
+            </a>
+          </li>
+          <li>
+            <a href="<?php echo BASE_URL; ?>empleados/listado_salarios.php">
+              Listado de salarios
             </a>
           </li>
         </ul>
